@@ -323,6 +323,8 @@ When `throwOnLimitExceeded` is set to `false` (default), **qs** will parse up to
 
 Note that `arrayLimit` is a *representation* threshold that controls when a numerically-indexed collection switches from an array to an object; it is **not** a hard cap on the total number of elements parsed. With the default `throwOnLimitExceeded: false`, exceeding `arrayLimit` never rejects or truncates input; it only changes the container type, and the resulting object still holds every element (so its size stays proportional to the input). This conversion is itself a safeguard: it avoids allocating a huge sparse array for input like `a[999999999]`. If you need a hard limit that rejects oversized arrays in untrusted query strings, set `throwOnLimitExceeded: true`. `throwOnLimitExceeded` still limits each array separately, not the total: with `comma: true`, each comma-separated group under `a[]=` counts as one element of the outer array, and can itself hold up to `arrayLimit` elements.
 
+Note that `arrayLimit` is applied per-array, not globally. For nested structures such as `a[0][0]=b&a[0][1]=c`, the limit is checked separately for each inner array (see [#450](https://github.com/ljharb/qs/issues/450)). Increase `arrayLimit` if you expect inner arrays with more than 20 elements.
+
 To prevent array syntax (`a[]`, `a[0]`) from being parsed as arrays, set `parseArrays` to `false`.
 Note that duplicate keys (e.g. `a=b&a=c`) may still produce arrays when `duplicates` is `'combine'` (the default).
 
