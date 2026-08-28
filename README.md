@@ -363,7 +363,7 @@ Some people use comma to join array, **qs** can parse it:
 var arraysOfObjects = qs.parse('a=b,c', { comma: true })
 assert.deepEqual(arraysOfObjects, { a: ['b', 'c'] })
 ```
-(_this cannot convert nested objects, such as `a={b:1},{c:d}`_)
+_(this cannot convert nested objects, such as `a={b:1},{c:d}`)_
 
 With `[]` or index notation, the values from each comma-separated group stay together as one element of the array, while repeated plain keys flatten into one array:
 ```javascript
